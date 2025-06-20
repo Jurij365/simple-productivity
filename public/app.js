@@ -190,9 +190,18 @@ googleSignInBtn.addEventListener('click', async () => {
         }
     }
     
-    // Finally, trigger the redirect. This is no longer inside a DB callback.
+    // Finally, trigger the sign-in flow. Use a popup on mobile browsers
+    // because the redirect flow can fail to pass the auth result back.
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithRedirect(provider);
+    try {
+        if (isMobileDevice()) {
+            await auth.signInWithPopup(provider);
+        } else {
+            await auth.signInWithRedirect(provider);
+        }
+    } catch (error) {
+        console.error("Google sign-in failed:", error);
+    }
 });
 
 async function handleRedirectResult() {
@@ -277,6 +286,13 @@ function getCurrentStateAsObject(forLocalDb = false, forFirestore = false) {
         state.lastStateChangeTimestamp = firebase.firestore.FieldValue.serverTimestamp();
     }
     return state;
+}
+
+function isMobileDevice() {
+    if (navigator.userAgentData && typeof navigator.userAgentData.mobile === 'boolean') {
+        return navigator.userAgentData.mobile;
+    }
+    return /android|iphone|ipad|ipod|iemobile|mobile/i.test(navigator.userAgent);
 }
 
 async function deleteLocalRecord(dateKey) {
