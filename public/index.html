@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simplest Focus Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAIAzuXENmmxVqby1PbQx7JhkhMmaNnySc",
+      authDomain: "simple-productivity-tracker.firebaseapp.com",
+      projectId: "simple-productivity-tracker",
+      storageBucket: "simple-productivity-tracker.appspot.com",
+      messagingSenderId: "870447649707",
+      appId: "1:870447649707:web:7012be81c1af1892f0f8ee",
+      measurementId: "G-JXLLN7FFQH"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const firestore = firebase.firestore();
+    const auth = firebase.auth();
+  </script>
+</head>
+<body>
+  <div id="auth-container">
+    <span id="userInfo"></span>
+    <button id="googleSignInBtn">Save your data. Continue with Google</button>
+    <button id="logoutButton">Logout</button>
+  </div>
+
+  <h1>Simplest Focus Tracker</h1>
+
+  <div class="buttons">
+    <button id="greenBtn">🟢 I'm focused</button>
+    <button id="redBtn">🔴 I'm distracted</button>
+  </div>
+
+  <div id="stats">
+    <p>Focused Time: <span id="focusTime">00:00:00</span></p>
+    <p>Distracted Time: <span id="distractTime">00:00:00</span></p>
+    <p>Focus Percentage: <span id="focusPercent">0.0%</span></p>
+  </div>
+  
+  <div id="syncMessage">Syncing your data...</div>
+  <button id="stopBtn">Stop Work</button>
+  
+  <script src="app.js"></script>
+</body>
+</html>
